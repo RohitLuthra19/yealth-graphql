@@ -1,73 +1,110 @@
 //Defining Types
 const typeDefs = `
 
-enum AllowedUnits {
-    0
-    1
-    2
+input AddressInput {
+    name: String
+    houseNo: String
+    landMark: String
+    locality: String
+    pincode: String
+    mobileNumber: String
+    lat: String
+    long: String
 }
 
-enum AllowedOrderStatus {
-    0
-    1
-    2
-    3
-    4
-    5
+input MedicineInput {
+    medicineName: String
+    dosage: String
+    units: Int
+    price: Int
+}
+
+input VendorInput {
+    name: String
+    mobileNumber: String
+    createdAt: String
+    address: AddressInput
+    orderHistory: [OrderInput]
+}
+
+input UserInput {
+    name: String
+    mobileNumber: String
+    createdAt: String
+    email: String
+    address: [AddressInput]
+    orderHistory: [OrderInput]
+    orderId: OrderInput
+    deviceToken: String
+    environment: String
+    osVersion: String
+    buildVersion: String
+    device: String
+    isSignupCompleted: Boolean
+}
+
+input OrderInput {
+    orderNo: Int
+    orderAddress: AddressInput
+    orderBy: UserInput
+    orderStatus: Int
+    prescription: [String]
+    createdAt: String
+    medicines: [MedicineInput]
+    vendorAssigned: VendorInput  
 }
 
 type Address {
-    name: String,
-    houseNo: String,
-    landMark: String,
-    locality: String,
-    pincode: String,
-    mobileNumber: String,
-    lat: String,
+    name: String
+    houseNo: String
+    landMark: String
+    locality: String
+    pincode: String
+    mobileNumber: String
+    lat: String
     long: String
 }
 
 type Medicine {
-    medicineName: String,
-    dosage: String,
-    units: AllowedUnits,
-    price: Number
-}
-
-type Order {
-    id: ID!,
-    orderNo: Number!,
-    orderAddress: Address,
-    orderBy: User,
-    orderStatus: AllowedOrderStatus,
-    prescription: [String],
-    createdAt: Date,
-    medicines: [Medicine],
-    vendorAssigned: Vendor   
+    medicineName: String
+    dosage: String
+    units: Int
+    price: Int
 }
 
 type Vendor {
-    name: String,
-    mobileNumber: String,
-    createdAt: Date,
-    address: Address,
-    orderHistory: [Order],
+    name: String
+    mobileNumber: String
+    createdAt: String
+    address: Address
+    orderHistory: [Order]
 }
 
 type User {
-    name: String,
-    mobileNumber: String,
-    createdAt: Date,
-    email: String,
-    address: [Address],
-    orderHistory: [Order],
-    orderId: Order,
-    deviceToken: String,
-    environment: String,
-    osVersion: String,
-    buildVersion: String,
-    device: String,
+    name: String
+    mobileNumber: String
+    createdAt: String
+    email: String
+    address: [Address]
+    orderHistory: [Order]
+    orderId: Order
+    deviceToken: String
+    environment: String
+    osVersion: String
+    buildVersion: String
+    device: String
     isSignupCompleted: Boolean
+}
+
+type Order {
+    orderNo: Int
+    orderAddress: Address
+    orderBy: User
+    orderStatus: Int
+    prescription: [String]
+    createdAt: String
+    medicines: [Medicine]
+    vendorAssigned: Vendor   
 }
 
 type Query {
@@ -76,7 +113,7 @@ type Query {
 }
 
 type Mutation {
-    placeOrder(orderBy: String, orderStatus: Number, prescription: [String], createdAt: Date, vendorAssigned: String, medicines: Object, orderAddress: Object ): Order
+    placeOrder(orderBy:String orderStatus:Int prescription:[String] createdAt:String vendorAssigned:String medicines:[MedicineInput] orderAddress:AddressInput ): Order
 }
 
 schema {

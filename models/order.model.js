@@ -52,7 +52,7 @@ const OrderSchema = new mongoose.Schema({
     },
     orderStatus: {
         type: Number,
-        enum: [0, 1, 2, 3, 4, 6]
+        enum: [0, 1, 2, 3, 4, 5]
     },
     prescription: [String],
     createdAt: {

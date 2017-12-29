@@ -1,22 +1,21 @@
+const mongoose = require('mongoose');
+const Order = require('../../models/order.model');
+
 const resolver = {
     Query: {
-        getAllOrders: async (parent, args, { Order }) => {
-            const orders = await Order.find();
-            return orders.map((order) => {
-                order._id = order._id.toString();
-                return order;
+        getAllOrders: async (parent, args) => {
+            return await Order.find({}, (err, res) => {
+                return res;
             });
         },
-        getOrder: async (parent, args, { Order }) => {
-            const orders = await Order.findOne({ _id: orderId });
-            return orders;
+        getOrder: async (parent, args) => {
+            return await Order.findById(args.orderId);
         },
     },
     Mutation: {
-        placeOrder: async (parent, args, { Order }) => {
-            const order = await new Order.save();
-            order._id = order._id.toString();
-            return order;
+        placeOrder: async (parent, args) => {
+            const order = new Order(args);
+            return await order.save();
         }
     }
 }

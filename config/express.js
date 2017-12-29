@@ -17,7 +17,7 @@ var APIError = require('../helpers/APIError');
 
 const { makeExecutableSchema } = require('graphql-tools');
 //  GraphQL server handles all requests and responses
-const { graphqlExpress } = require('apollo-server-express');
+const { graphiqlExpress, graphqlExpress } = require('apollo-server-express');
 
 const app = express();
 
@@ -59,8 +59,15 @@ const schema = makeExecutableSchema({
   resolvers
 })
 // GraphqQL server route
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema, context: {Order} }));
-app.use('/graphiql', graphqlExpress({ endpointURL: '/graphql' }));
+//app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: schema, context: { } }));
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+
+app.use("/graphql", bodyParser.json(), graphqlExpress((req) => {
+  return {
+    schema: schema,
+    context: { },
+  };
+}));
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {
