@@ -59,8 +59,8 @@ const schema = makeExecutableSchema({
 })
 
 //Other Express routes
-app.get('/', (req, res)=>{
-  res.json({success: true, error: false, message: "Welcome in Yealth"});
+app.get('/', (req, res) => {
+  res.json({ success: true, error: false, message: "Welcome in Yealth" });
 });
 app.use('/api', routes);
 app.use('/api/admin', adminroutes);
@@ -70,7 +70,13 @@ app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 app.use("/graphql", bodyParser.json(), graphqlExpress((req) => {
   return {
     schema: schema,
-    context: { },
+    formatResponse(res) {
+      var data = res.data;
+      for(firstKey in data);
+      res = { success: true, error: false, data: data[firstKey]};
+      return res;
+    },
+    context: {},
   };
 }));
 
