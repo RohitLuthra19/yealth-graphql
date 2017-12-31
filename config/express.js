@@ -14,8 +14,10 @@ var favicon = require('serve-favicon');
 var winstonInstance = require('./winston');
 var config = require('./config');
 var APIError = require('../helpers/APIError');
-
+var routes = require('../routes/index.route');
+var adminroutes = require('../admin/routes/index.route');
 const { makeExecutableSchema } = require('graphql-tools');
+
 //  GraphQL server handles all requests and responses
 const { graphiqlExpress, graphqlExpress } = require('apollo-server-express');
 
@@ -47,9 +49,6 @@ if (config.env === 'development') {
   expressWinston.responseWhitelist.push('body');
 }
 
-/* app.use('/api', routes);
-app.use('/api/admin', adminroutes);*/
-
 var typeDefs = require('../graphql/schema');
 var resolvers = require('../graphql/resolvers');
 var Order = require('../models/order.model');
@@ -58,10 +57,16 @@ const schema = makeExecutableSchema({
   typeDefs,
   resolvers
 })
-// GraphqQL server route
-//app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: schema, context: { } }));
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
+//Other Express routes
+app.use('/', (req, res)=>{
+  res.json({success: true, error: false, message: "Welcome in Yealth"});
+});
+app.use('/api', routes);
+app.use('/api/admin', adminroutes);
+
+// GraphqQL server routes
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 app.use("/graphql", bodyParser.json(), graphqlExpress((req) => {
   return {
     schema: schema,
