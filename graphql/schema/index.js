@@ -13,6 +13,7 @@ input AddressInput {
 }
 
 input MedicineInput {
+    _id: String
     medicineName: String
     dosage: String
     units: Int
@@ -20,6 +21,7 @@ input MedicineInput {
 }
 
 input VendorInput {
+    _id: String
     name: String
     mobileNumber: String
     createdAt: String
@@ -28,6 +30,7 @@ input VendorInput {
 }
 
 input UserInput {
+    _id: String
     name: String
     mobileNumber: String
     createdAt: String
@@ -44,17 +47,19 @@ input UserInput {
 }
 
 input OrderInput {
+    _id: String
     orderNo: Int
     orderAddress: AddressInput
-    orderBy: UserInput
+    orderBy: String
     orderStatus: Int
     prescription: [String]
     createdAt: String
     medicines: [MedicineInput]
-    vendorAssigned: VendorInput  
+    vendorAssigned: String  
 }
 
 type Address {
+    _id: String
     name: String
     houseNo: String
     landMark: String
@@ -73,6 +78,7 @@ type Medicine {
 }
 
 type Vendor {
+    _id: String
     name: String
     mobileNumber: String
     createdAt: String
@@ -81,6 +87,7 @@ type Vendor {
 }
 
 type User {
+    _id: String
     name: String
     mobileNumber: String
     createdAt: String
@@ -97,6 +104,7 @@ type User {
 }
 
 type Order {
+    _id: String
     orderNo: Int
     orderAddress: Address
     orderBy: User
@@ -109,11 +117,19 @@ type Order {
 
 type Query {
     getAllOrders: [Order]
-    getOrder(orderId: String!): Order
+    getOrder(_id: String!): Order
+    getOrdersByUser(userId:String!): Order
+
+
 }
 
 type Mutation {
     placeOrder(orderBy:String orderStatus:Int prescription:[String] createdAt:String vendorAssigned:String medicines:[MedicineInput] orderAddress:AddressInput ): Order
+    updateOrder(_id: String! orderBy:String orderStatus:Int prescription:[String] createdAt:String vendorAssigned:String medicines:[MedicineInput] orderAddress:AddressInput ): Order
+    removeOrder(_id: String!): Order
+    updateOrderStatus(_id:String! orderStatus:Int): Order
+
+    sendOtp(mobileNumber: String!): User
 }
 
 schema {

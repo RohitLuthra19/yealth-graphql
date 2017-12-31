@@ -1,0 +1,46 @@
+mutation {
+    placeOrder(orderAddress: {houseNo: "1232", landMark: "x", locality: "y", pincode: "160014", mobileNumber: "9886372636", lat: "3333", long: "44444"}, orderBy: "5a45e4b8e7d92c1e90738c31", orderStatus: 0, prescription: ["abc", "xyz"], medicines: [{medicineName: "vv", dosage: "hh", units: 0, price: 779}]) {
+      orderAddress {
+        name
+        houseNo
+        landMark
+        locality
+        pincode
+        mobileNumber
+        lat
+        long
+      }
+      orderBy {
+        name
+        mobileNumber
+        createdAt
+        email
+        deviceToken
+        environment
+        osVersion
+        buildVersion
+        device
+        isSignupCompleted
+      }
+      orderStatus
+      prescription
+      medicines {
+        medicineName
+        dosage
+        units
+        price
+      }
+    }
+  }
+  
+
+  mutation {
+    removeOrder(_id:"5a464305c3e84b1870097057"){
+      orderStatus
+      orderNo
+      orderBy
+      orderAddress
+      prescription
+      medicines
+    }
+  }

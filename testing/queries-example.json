@@ -1,0 +1,35 @@
+{
+    getAllOrders {
+      orderNo
+      orderBy {
+        name
+        mobileNumber
+        createdAt
+        email
+        deviceToken
+        environment
+        osVersion
+        buildVersion
+        device
+        isSignupCompleted
+      }
+      orderStatus
+      vendorAssigned {
+        name
+        mobileNumber
+        createdAt
+      }
+      orderAddress {
+        name
+        houseNo
+        landMark
+        locality
+        pincode
+        mobileNumber
+        lat
+        long
+      }
+      prescription
+    }
+  }
+  
