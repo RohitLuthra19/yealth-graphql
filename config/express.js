@@ -59,7 +59,7 @@ const schema = makeExecutableSchema({
 })
 
 //Other Express routes
-app.use('/', (req, res)=>{
+app.get('/', (req, res)=>{
   res.json({success: true, error: false, message: "Welcome in Yealth"});
 });
 app.use('/api', routes);
